@@ -1,0 +1,48 @@
+Add Repository Signing Key
+
+- curl -fsSL https://github.com/rabbitmq/signing-keys/releases/download/2.0/rabbitmq-release-signing-key.asc | sudo apt-key add -
+
+- sudo apt-key adv --keyserver "hkps.pool.sks-keyservers.net" --recv-keys "0x6B73A36E6026DFCA"
+
+Enable Https Transport
+
+- sudo apt-get install apt-transport-https
+
+
+To add the apt repository to the source list directory (/etc/apt/sources.list.d), use: 
+ on Ubuntu 16.04 it would be
+- echo "deb https://dl.bintray.com/rabbitmq/debian xenial main" | sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list
+
+- sudo tee /etc/apt/sources.list.d/bintray.rabbitmq.list <<EOF
+ deb https://dl.bintray.com/rabbitmq-erlang/debian xenial erlang-21.x
+ deb https://dl.bintray.com/rabbitmq/debian xenial main
+ EOF
+
+- sudo apt-get update -y
+
+- sudo apt-get install -y rabbitmq-server
+
+
+
+
+// maven cmd to skip tests' run while creating package for maven.
+mvn -DskipTests=true package
+
+
+
+You should enable the management plugin:
+ - rabbitmq-plugins enable rabbitmq_management
+ - after running above command, run following command to get rabbitmqadmin(command line interface which can perform some of the same actions as the Web-based UI)
+   wget http://sid-inspiron-3542:15672/cli/rabbitmqadmin
+ - chmod +x rabbitmqadmin
+ - URL : http://sid-inspiron-3542:15672/  --> UI access for rabbitmq management.
+ - The default administrator username and password are guest and guest.
+
+
+command run to get messages over queue:
+sudo python rabbitmqadmin get queue=room-cleaner count=112
+
+
+
+
+
